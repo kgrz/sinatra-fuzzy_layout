@@ -29,5 +29,7 @@ module Sinatra
     end
   end
 
-  class Base include FuzzyLayout end
+  class Base
+    include FuzzyLayout
+  end
 end
