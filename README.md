@@ -63,11 +63,11 @@ basis `haml :view, :layout => false`. If the layout is required, then the
 `layout.haml` is also parsed and the `view.haml` part is added to the 
 layout. 
 
-This extension lets you define the layout options at a global level and 
-modifies the `render` method in `Sinatra::Templates` so that the templates 
-are checked with the regexes defined.
+This extension lets you define the layout options at a global level. 
+It modifies the `render` method in `Sinatra::Templates` so that the templates 
+are checked against the regexes defined and the layout option is set 
+(or unset) based on the result.
 
-Typically, only one template is used in each route (duh!).
 
 A template is first validated against the `enable_layouts` regex. If the 
 `enable_layouts` directive is not defined in the app however, the check 
@@ -77,7 +77,8 @@ happens. This means that if you define a template in both the
 `enable_layouts` `disable_layouts` directives, the layout gets enabled 
 since the first check returns true.
 
-This means that the regex checks happen only one in the best case and 
+Typically, only one template is used in each route (duh!). This means 
+that the regex checks happen only one in the best case and 
 twice in the worst case and so should not affect performance by a large 
 margin. However, if you are writing at webscale, you might want to skip 
 this.
@@ -90,13 +91,13 @@ you're into it.
 
 ### Tests
 
-No one's gonna use it unless you test this.
+No one's gonna use it unless it has a `spec` directory.
 
 ### Better accessors
 
 Need to be able to provide these DSL methods:
-```ruby
 
+```ruby
 enable_layouts_for :index, :view, :home, :whatever
 disable_layouts_for :system_reports, value_reports
 ```
@@ -105,6 +106,10 @@ disable_layouts_for :system_reports, value_reports
 Right now, the enable/disable directives take only a single input and 
 that too, a regex. This needs to be expanded to make the usage flexible.
 
+```ruby
+enable_layouts_for :index, /(front|back)_view/, :home, :whatever
+disable_layouts_for :system_reports, value_reports
+```
 ## Contributing
 
 Lulz. Really?
