@@ -1,35 +1,17 @@
 require "sinatra/base"
+require_relative "fuzzy_layout/fuzzy_layout_templates.rb"
+require_relative "fuzzy_layout/extension_methods.rb"
+require_relative "fuzzy_layout/test_helpers.rb"
 
 module Sinatra
   module FuzzyLayout
-    include Templates
-
-    def render(engine, data, options={}, locals={}, &block)
-      options = get_new_options_and_template(options, data)
-      super
+    def self.registered(base)
+#      base.extend(FuzzyLayoutTemplates)
+      base.extend(ExtensionMethods)
     end
 
-    private
-
-    def get_new_options_and_template(options, template)
-      if enable_layout_set? && template =~ settings.enable_layout
-        options[:layout] = true 
-      elsif disable_layout_set? && template =~ settings.disable_layout
-        options[:layout] = false
-      end
-      return options
-    end
-
-    def enable_layout_set?
-      settings.respond_to?(:enable_layout)
-    end
-
-    def disable_layout_set?
-      settings.respond_to?(:disable_layout)
-    end
   end
 
-  class Base
-    include FuzzyLayout
-  end
+  register FuzzyLayout
+  Delegator.delegate :enable_layout_for, :disable_layout_for
 end
