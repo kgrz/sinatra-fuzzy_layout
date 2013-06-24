@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sinatra/fuzzy_layout/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sinatra-fuzzy_layout"
-  spec.version       = Sinatra::FuzzyLayout::VERSION
+  spec.version       = "0.0.1"
   spec.authors       = ["Kashyap"]
   spec.email         = ["kashyap.kmbc@gmail.com"]
   spec.description   = %q{Provides ability to enable or disable layouts 
