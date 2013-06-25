@@ -7,12 +7,22 @@ How many times did you wished you could do something like this:
 ```ruby
 
 class App < Sinatra::Base
+  
+  register Sinatra::FuzzyLayout
 
-  enable_layout, /index|view|home/
-  disable_layout, /.+_reports/
+  enable_layout_for "home", :admin
+  disable_layout_for /.+_reports/
 
   get '/' do
     haml :index             # layout.haml is used
+  end
+
+  get '/admin' do
+    haml :admin             # layout.haml is used
+  end
+
+  get '/home' do
+    haml :home              # layout.haml is used
   end
 
   get '/system_reports' do
@@ -48,9 +58,30 @@ Once the gem is installed, add this in your app file:
 
     require 'sinatra/fuzzy_layout'
 
+
+#### Classic Style
+
+Once you `require` the gem, you can define the `enable_layout_for` and/or 
+`disable_layout_for` end-points
+
+#### Modular Style
+
+An additional step in case of Modular style apps is :
+
+```ruby
+require "sinatra/fuzzy_layout" # just like in classic style
+
+class App < Sinatra::Base
+
+  register Sinatra::FuzzyLayout
+
+  enable_layout_for :a_template
+end
+```
+
 Done.
 
-## Performance/How it works
+## How it works
 
 (Note: if you use a different templating engine like `slim` or `erb`, 
 replace all instances of `haml` with that engine here on)
@@ -69,12 +100,12 @@ are checked against the regexes defined and the layout option is set
 (or unset) based on the result.
 
 
-A template is first validated against the `enable_layouts` regex. If the 
-`enable_layouts` directive is not defined in the app however, the check 
-only happens against `disable_layouts`. If the first check returns true, 
+A template is first validated against the `enable_layouts_for` options. If the 
+`enable_layouts_for` directive is not defined in the app however, the check 
+only happens against `disable_layouts_for`. If the first check returns true, 
 i.e., if the layout is enabled for that template, the second check never 
 happens. This means that if you define a template in both the 
-`enable_layouts` `disable_layouts` directives, the layout gets enabled 
+`enable_layouts_for` and `disable_layouts_for` directives, the layout gets enabled 
 since the first check returns true.
 
 Typically, only one template is used in each route (duh!). This means 
@@ -85,31 +116,10 @@ this.
 
 Even if you use this plugin, it won't interfere with the normal Sinatra 
 layout directives (global and per-route) and so, you can mix-and-match if 
-you're into it.
+you're into it. If you're still uncertain whether or not to use it, but 
+want to, I'd say go ahead.
 
-## Todo
 
-### Tests
-
-No one's gonna use it unless it has a `spec` directory.
-
-### Better accessors
-
-Need to be able to provide these DSL methods:
-
-```ruby
-enable_layouts_for :index, :view, :home, :whatever
-disable_layouts_for :system_reports, value_reports
-```
-### Multiple Arguments
-
-Right now, the enable/disable directives take only a single input and 
-that too, a regex. This needs to be expanded to make the usage flexible.
-
-```ruby
-enable_layouts_for :index, /(front|back)_view/, :home, :whatever
-disable_layouts_for :system_reports, value_reports
-```
 ## Contributing
 
 Lulz. Really?
