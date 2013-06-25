@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "sinatra-fuzzy_layout"
-  spec.version       = "0.0.2"
+  spec.version       = "0.0.3"
   spec.authors       = ["Kashyap"]
   spec.email         = ["kashyap.kmbc@gmail.com"]
   spec.description   = %q{Provides ability to enable or disable layouts 
