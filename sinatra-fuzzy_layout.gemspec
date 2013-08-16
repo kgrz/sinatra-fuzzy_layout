@@ -4,15 +4,15 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "sinatra-fuzzy_layout"
-  spec.version       = "0.0.3"
+  spec.version       = "0.0.5"
   spec.authors       = ["Kashyap"]
   spec.email         = ["kashyap.kmbc@gmail.com"]
   spec.description   = %q{Provides ability to enable or disable layouts 
-                          for templates via Regex}
+                          for multiple templates via Regex}
   spec.summary       = %q{
                           In Sinatra, the user can disable the layout 
                           template either globally or on a per template 
-                          basis in the individual routes. This module 
+                          basis in the individual routes. This extension 
                           will provide support to enable or disable the 
                           layout rendering based on Regex description. 
                           Refer to Readme for more details
@@ -26,7 +26,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", "~> 10.0.0"
+  spec.add_development_dependency "rspec", "~> 2.6"
 
-  spec.add_dependency "sinatra"
+  spec.required_ruby_version = '>= 1.9.3'
+
+  spec.add_dependency "sinatra", "~> 1.3"
 end
