@@ -1,6 +1,6 @@
 require "sinatra/base"
 require "haml"
-require "sinatra/fuzzy_layout"
+require File.expand_path("../../lib/sinatra/fuzzy_layout.rb", __FILE__)
 
 class SampleAppMultiple < Sinatra::Base
   register Sinatra::FuzzyLayout
