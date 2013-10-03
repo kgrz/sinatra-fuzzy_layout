@@ -97,10 +97,11 @@ module Sinatra
       #   A Symbol representing the name of the view. For example, `:index`
 
       def get_new_options_and_template(options, template)
+        old_option = options.fetch(:layout) { false }
         if settings.enable_list.has_the_template?(template)
-          options[:layout] = true
+          options.merge!(:layout => (true && old_option))
         elsif settings.disable_list.has_the_template?(template)
-          options[:layout] = false
+          options.merge!(:layout => (false || old_option))
         end
 
         options
@@ -108,14 +109,16 @@ module Sinatra
     end
 
     def enable_layout_for(*templates)
-      Base.set :enable_list, templates || []
+      settings.enable_list.push(*templates)
     end
 
     def disable_layout_for(*templates)
-      Base.set :disable_list, templates || []
+      settings.disable_list.push(*templates)
     end
 
     def self.registered(app)
+      app.set :enable_list, []
+      app.set :disable_list, []
       app.helpers TemplatesHelpers
     end
   end
